@@ -1,7 +1,9 @@
 package com.salem.steambacklogmanager.service;
 
 import com.salem.steambacklogmanager.model.Game;
+import com.salem.steambacklogmanager.repository.GameRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,30 +11,22 @@ import java.util.List;
 @Service
 public class GameService {
 
+    private final GameRepository gameRepository;
+
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
+
     public List<Game> getGames() {
+        return gameRepository.findAll();
 
-    List<Game> games = new ArrayList<>();
+    }
 
-        games.add(new Game(
-                "Elden Ring",
-                10,
-                300,
-                "Completed"
-        ));
-        games.add(new Game(
-                "Cyberpunk 2077",
-                9,
-                120,
-                "Completed"
-        ));
-        games.add(new Game(
-                "Baldur's Gate 3",
-                10,
-                180,
-                "Completed"
-        ));
+    public Game createGame(Game game) {
+        return gameRepository.save(game);
+    }
 
-        return games;
-
+    public void deleteGame(Long id) {
+        gameRepository.deleteById(id);
     }
 }

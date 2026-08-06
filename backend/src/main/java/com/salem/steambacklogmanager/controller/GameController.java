@@ -3,9 +3,7 @@ package com.salem.steambacklogmanager.controller;
 
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.service.GameService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +21,15 @@ public class GameController {
     @GetMapping
     public List<Game> getGames() {
         return gameService.getGames();
+    }
+
+    @PostMapping
+    public Game createGame(@RequestBody Game game) {
+        return gameService.createGame(game);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteGame(@PathVariable Long id) {
+        gameService.deleteGame(id);
     }
 }

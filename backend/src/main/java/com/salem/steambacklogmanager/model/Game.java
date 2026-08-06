@@ -1,14 +1,23 @@
 package com.salem.steambacklogmanager.model;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Game {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private int rating;
     private int hoursPlayed;
     private String status;
+
+    public Game() {}
 
     public Game(String title , int rating, int hoursPlayed, String status ) {
         this.hoursPlayed = hoursPlayed;

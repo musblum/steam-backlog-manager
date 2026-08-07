@@ -1,5 +1,6 @@
 package com.salem.steambacklogmanager.service;
 
+import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.repository.GameRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,13 @@ public class GameService {
 
     }
 
-    public Game createGame(Game game) {
+    public Game createGame(CreateGameRequest request) {
+        Game game = new Game(
+                request.getTitle(),
+                request.getRating(),
+                request.getHoursPlayed(),
+                request.getStatus()
+        );
         return gameRepository.save(game);
     }
 

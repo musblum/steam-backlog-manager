@@ -1,6 +1,7 @@
 package com.salem.steambacklogmanager.controller;
 
 
+import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.service.GameService;
 import jakarta.validation.Valid;
@@ -25,8 +26,8 @@ public class GameController {
     }
 
     @PostMapping
-    public Game createGame(@Valid @RequestBody Game game) {
-        return gameService.createGame(game);
+    public Game createGame(@Valid @RequestBody CreateGameRequest request) {
+        return gameService.createGame(request);
     }
 
     @DeleteMapping("/{id}")

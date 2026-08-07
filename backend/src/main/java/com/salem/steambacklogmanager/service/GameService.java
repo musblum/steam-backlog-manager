@@ -29,4 +29,17 @@ public class GameService {
     public void deleteGame(Long id) {
         gameRepository.deleteById(id);
     }
+
+    public Game updateGame(Long id, Game updatedGame ) {
+
+        Game existingGame = gameRepository.findById(id)
+                .orElseThrow();
+
+        existingGame.setTitle(updatedGame.getTitle());
+        existingGame.setRating(updatedGame.getRating());
+        existingGame.setHoursPlayed(updatedGame.getHoursPlayed());
+        existingGame.setStatus(updatedGame.getStatus());
+
+        return gameRepository.save(existingGame);
+    }
 }

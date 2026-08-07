@@ -3,6 +3,7 @@ package com.salem.steambacklogmanager.controller;
 
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.service.GameService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,12 +25,19 @@ public class GameController {
     }
 
     @PostMapping
-    public Game createGame(@RequestBody Game game) {
+    public Game createGame(@Valid @RequestBody Game game) {
         return gameService.createGame(game);
     }
 
     @DeleteMapping("/{id}")
     public void deleteGame(@PathVariable Long id) {
         gameService.deleteGame(id);
+    }
+
+    @PutMapping("/{id}")
+    public Game updateGame(
+            @PathVariable Long id,
+            @Valid @RequestBody Game updatedGame) {
+        return gameService.updateGame(id, updatedGame);
     }
 }

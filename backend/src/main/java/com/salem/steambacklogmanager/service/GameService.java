@@ -3,6 +3,7 @@ package com.salem.steambacklogmanager.service;
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.dto.GameResponse;
 import com.salem.steambacklogmanager.dto.UpdateGameRequest;
+import com.salem.steambacklogmanager.exception.GameNotFoundException;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.repository.GameRepository;
 import jakarta.validation.Valid;
@@ -63,7 +64,7 @@ public class GameService {
 
     public GameResponse updateGame(Long id, UpdateGameRequest request ) {
         Game existingGame = gameRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new GameNotFoundException(id));
 
         existingGame.setTitle(request.getTitle());
         existingGame.setRating(request.getRating());

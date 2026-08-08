@@ -83,4 +83,13 @@ public class GameService {
         }
         return responses;
     }
+
+    public List<GameResponse> filterByStatus(String status) {
+        List<Game> games = gameRepository.findByStatusIgnoreCase(status);
+        List<GameResponse> responses = new ArrayList<>();
+        for (Game game : games) {
+            responses.add(toGameResponse(game));
+        }
+        return responses;
+    }
 }

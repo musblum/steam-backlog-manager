@@ -49,4 +49,9 @@ public class GameController {
         return gameService.searchGames(title);
     }
 
+    @GetMapping("/status")
+    public List<GameResponse> searchGamesByStatus(@RequestParam String status) {
+        return gameService.filterByStatus(status);
+    }
+
 }

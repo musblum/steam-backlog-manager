@@ -8,4 +8,6 @@ import java.util.List;
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     List<Game> findByTitleContainingIgnoreCase(String title);
+
+    List<Game> findByStatusIgnoreCase(String status);
 }

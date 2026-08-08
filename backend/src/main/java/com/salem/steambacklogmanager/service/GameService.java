@@ -2,10 +2,11 @@ package com.salem.steambacklogmanager.service;
 
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.dto.GameResponse;
+import com.salem.steambacklogmanager.dto.UpdateGameRequest;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.repository.GameRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,16 +61,16 @@ public class GameService {
         gameRepository.deleteById(id);
     }
 
-    public Game updateGame(Long id, Game updatedGame ) {
-
+    public GameResponse updateGame(Long id, UpdateGameRequest request ) {
         Game existingGame = gameRepository.findById(id)
                 .orElseThrow();
 
-        existingGame.setTitle(updatedGame.getTitle());
-        existingGame.setRating(updatedGame.getRating());
-        existingGame.setHoursPlayed(updatedGame.getHoursPlayed());
-        existingGame.setStatus(updatedGame.getStatus());
+        existingGame.setTitle(request.getTitle());
+        existingGame.setRating(request.getRating());
+        existingGame.setHoursPlayed(request.getHoursPlayed());
+        existingGame.setStatus(request.getStatus());
 
-        return gameRepository.save(existingGame);
+        Game savedGame =  gameRepository.save(existingGame);
+        return toGameResponse(savedGame);
     }
 }

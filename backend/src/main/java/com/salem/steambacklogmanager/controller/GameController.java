@@ -2,6 +2,7 @@ package com.salem.steambacklogmanager.controller;
 
 
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
+import com.salem.steambacklogmanager.dto.GameResponse;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.service.GameService;
 import jakarta.validation.Valid;
@@ -21,12 +22,12 @@ public class GameController {
     }
 
     @GetMapping
-    public List<Game> getGames() {
+    public List<GameResponse> getGames() {
         return gameService.getGames();
     }
 
     @PostMapping
-    public Game createGame(@Valid @RequestBody CreateGameRequest request) {
+    public GameResponse createGame(@Valid @RequestBody CreateGameRequest request) {
         return gameService.createGame(request);
     }
 

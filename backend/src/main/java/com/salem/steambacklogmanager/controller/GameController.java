@@ -3,6 +3,7 @@ package com.salem.steambacklogmanager.controller;
 
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.dto.GameResponse;
+import com.salem.steambacklogmanager.dto.UpdateGameRequest;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.service.GameService;
 import jakarta.validation.Valid;
@@ -37,9 +38,9 @@ public class GameController {
     }
 
     @PutMapping("/{id}")
-    public Game updateGame(
+    public GameResponse updateGame(
             @PathVariable Long id,
-            @Valid @RequestBody Game updatedGame) {
-        return gameService.updateGame(id, updatedGame);
+            @Valid @RequestBody UpdateGameRequest request) {
+        return gameService.updateGame(id, request);
     }
 }

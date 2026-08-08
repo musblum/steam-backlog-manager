@@ -74,4 +74,13 @@ public class GameService {
         Game savedGame =  gameRepository.save(existingGame);
         return toGameResponse(savedGame);
     }
+
+    public List<GameResponse> searchGames(String title) {
+        List<Game> games =  gameRepository.findByTitleContainingIgnoreCase(title);
+        List<GameResponse> responses = new ArrayList<>();
+        for (Game game : games) {
+            responses.add(toGameResponse(game));
+        }
+        return responses;
+    }
 }

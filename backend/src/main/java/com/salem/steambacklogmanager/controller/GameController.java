@@ -43,4 +43,10 @@ public class GameController {
             @Valid @RequestBody UpdateGameRequest request) {
         return gameService.updateGame(id, request);
     }
+
+    @GetMapping("/search")
+    public List<GameResponse> searchGames(@RequestParam String title) {
+        return gameService.searchGames(title);
+    }
+
 }

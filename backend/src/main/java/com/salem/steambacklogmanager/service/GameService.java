@@ -92,4 +92,13 @@ public class GameService {
         }
         return responses;
     }
+
+    public List<GameResponse> orderByRating(){
+        List<Game> games = gameRepository.findAllByOrderByRatingDesc();
+        List<GameResponse> responses = new ArrayList<>();
+        for (Game game : games) {
+            responses.add(toGameResponse(game));
+        }
+        return responses;
+    }
 }

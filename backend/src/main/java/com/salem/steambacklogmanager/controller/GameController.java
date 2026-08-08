@@ -54,4 +54,10 @@ public class GameController {
         return gameService.filterByStatus(status);
     }
 
+    @GetMapping("/rating")
+    public List<GameResponse> orderByRating() {
+        return gameService.orderByRating();
+    }
+
+
 }

@@ -10,4 +10,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByTitleContainingIgnoreCase(String title);
 
     List<Game> findByStatusIgnoreCase(String status);
+
+    List<Game> findAllByOrderByRatingDesc();
 }

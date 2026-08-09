@@ -39,7 +39,8 @@ public class GameService {
                 game.getTitle(),
                 game.getRating(),
                 game.getHoursPlayed(),
-                game.getStatus()
+                game.getStatus(),
+                game.getImageUrl()
         );
     }
 
@@ -56,7 +57,8 @@ public class GameService {
                 savedGame.getTitle(),
                 savedGame.getRating(),
                 savedGame.getHoursPlayed(),
-                savedGame.getStatus()
+                savedGame.getStatus(),
+                savedGame.getImageUrl()
         );
     }
 
@@ -112,21 +114,22 @@ public class GameService {
 
         if (existingGame.isPresent()) {
             game = existingGame.get();
-
-            game.setTitle(steamGame.getName());
-            game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
-            game.setSteamAppId(steamGame.getAppid());
-        }else{
+        } else {
             game = new Game();
-
-            game.setTitle(steamGame.getName());
-            game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
-            game.setSteamAppId(steamGame.getAppid());
-
             game.setRating(0);
             game.setStatus("Backlog");
-            //game.setImageUrl(steamGame.getImg_icon_url());
         }
+
+        game.setTitle(steamGame.getName());
+        game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
+        game.setSteamAppId(steamGame.getAppid());
+
+        String imageUrl =
+                "https://steamcdn-a.akamaihd.net/steam/apps/"
+                        + steamGame.getAppid()
+                        + "/library_600x900.jpg";
+
+        game.setImageUrl(imageUrl);
 
         return gameRepository.save(game);
     }

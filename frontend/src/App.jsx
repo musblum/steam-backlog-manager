@@ -27,7 +27,10 @@ function App() {
                       title={game.title}
                       hoursPlayed={game.hoursPlayed}
                       imgUrl={game.imageUrl}
+                      rating={game.rating}
+                      status={game.status}
                   />
+
               ))}
           </div>
       </>

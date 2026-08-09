@@ -9,16 +9,18 @@ public class GameResponse {
     private int rating;
     private int hoursPlayed;
     private String status;
+    private String imageUrl;
 
     public GameResponse() {
     }
 
-    public GameResponse(Long id, String title, int rating, int hoursPlayed, String status) {
+    public GameResponse(Long id, String title, int rating, int hoursPlayed, String status, String imageUrl) {
         this.id = id;
         this.title = title;
         this.rating = rating;
         this.hoursPlayed = hoursPlayed;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -40,5 +42,9 @@ public class GameResponse {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

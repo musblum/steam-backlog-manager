@@ -3,6 +3,7 @@ package com.salem.steambacklogmanager.service;
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.dto.GameResponse;
 import com.salem.steambacklogmanager.dto.UpdateGameRequest;
+import com.salem.steambacklogmanager.dto.steam.SteamGame;
 import com.salem.steambacklogmanager.exception.GameNotFoundException;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.repository.GameRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GameService {
@@ -98,6 +100,42 @@ public class GameService {
         List<GameResponse> responses = new ArrayList<>();
         for (Game game : games) {
             responses.add(toGameResponse(game));
+        }
+        return responses;
+    }
+
+    public Game importSteamGame(SteamGame steamGame) {
+        Optional<Game> existingGame =
+                gameRepository.findBySteamAppId(steamGame.getAppid());
+
+        Game game;
+
+        if (existingGame.isPresent()) {
+            game = existingGame.get();
+
+            game.setTitle(steamGame.getName());
+            game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
+            game.setSteamAppId(steamGame.getAppid());
+        }else{
+            game = new Game();
+
+            game.setTitle(steamGame.getName());
+            game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
+            game.setSteamAppId(steamGame.getAppid());
+
+            game.setRating(0);
+            game.setStatus("Backlog");
+            //game.setImageUrl(steamGame.getImg_icon_url());
+        }
+
+        return gameRepository.save(game);
+    }
+
+    public List<GameResponse> importSteamGames(List<SteamGame> steamGames) {
+        List<GameResponse> responses = new ArrayList<>();
+        for (SteamGame game : steamGames) {
+            Game newGame = importSteamGame(game);
+            responses.add(toGameResponse(newGame));
         }
         return responses;
     }

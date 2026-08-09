@@ -17,16 +17,19 @@ function App() {
 
   return (
       <>
-        <h1>Steam Backlog Manager</h1>
+        <h1 className={"app-title"}>Steam    Backlog     Manager</h1>
         <p>Your games. Your ratings. Your backlog</p>
 
-          {games.map((game) => (
-              <GameCard
-                  key={game.id}
-                  title={game.title}
-                  hoursPlayed={game.hoursPlayed}
-              />
-          ))}
+          <div className={"game-grid"}>
+              {games.map((game) => (
+                  <GameCard
+                      key={game.id}
+                      title={game.title}
+                      hoursPlayed={game.hoursPlayed}
+                      imgUrl={game.imageUrl}
+                  />
+              ))}
+          </div>
       </>
 
   )

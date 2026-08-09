@@ -29,6 +29,9 @@ public class Game {
     @NotBlank
     private String status;
 
+    private Long steamAppId;
+    private String imageUrl;
+
     public Game() {}
 
     public Game(String title , int rating, int hoursPlayed, String status ) {
@@ -78,4 +81,19 @@ public class Game {
         this.title = title;
     }
 
+    public Long getSteamAppId() {
+        return steamAppId;
+    }
+
+    public void setSteamAppId(Long steamAppId) {
+        this.steamAppId = steamAppId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

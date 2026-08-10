@@ -60,5 +60,9 @@ public class GameController {
         return gameService.orderByRating();
     }
 
+    @GetMapping("/{id}")
+    public GameResponse getGameById(@PathVariable Long id) {
+        return gameService.getGameById(id);
+    }
 
 }

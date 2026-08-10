@@ -142,4 +142,14 @@ public class GameService {
         }
         return responses;
     }
+
+    public GameResponse getGameById(Long id) {
+        Optional<Game> existingGame = gameRepository.findById(id);
+
+        if (existingGame.isPresent()) {
+            return toGameResponse(existingGame.get());
+        }
+
+        return null;
+    }
 }

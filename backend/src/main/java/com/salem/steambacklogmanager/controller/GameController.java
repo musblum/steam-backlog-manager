@@ -3,6 +3,7 @@ package com.salem.steambacklogmanager.controller;
 
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.dto.GameResponse;
+import com.salem.steambacklogmanager.dto.GameStatsResponse;
 import com.salem.steambacklogmanager.dto.UpdateGameRequest;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.service.GameService;
@@ -63,6 +64,11 @@ public class GameController {
     @GetMapping("/{id}")
     public GameResponse getGameById(@PathVariable Long id) {
         return gameService.getGameById(id);
+    }
+
+    @GetMapping("/stats")
+    public GameStatsResponse getGameStats() {
+        return gameService.getGameStats();
     }
 
 }

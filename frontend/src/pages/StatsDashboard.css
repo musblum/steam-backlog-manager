@@ -1,0 +1,36 @@
+.stats-dashboard {
+    padding: 24px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stat-card h2 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.featured-stat {
+    border: 2px solid var(--accent);
+}
+
+.featured-stat p {
+    font-size: 36px;
+}

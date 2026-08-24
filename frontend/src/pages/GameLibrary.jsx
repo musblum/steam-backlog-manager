@@ -8,6 +8,7 @@ function GameLibrary() {
     const [games, setGames] = useState([]);
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
+    const [sortBy, setSortBy] = useState("title-asc");
 
     useEffect(() => {
         async function loadGames() {
@@ -27,6 +28,30 @@ function GameLibrary() {
             statusFilter === 'All' || game.status === statusFilter;
 
         return matchesSearch && matchesStatus;
+    });
+
+    const sortedGames = [...filteredGames].sort((a, b) => {
+        if (sortBy === "title-asc") {
+            return a.title.localeCompare(b.title);
+        }
+
+        if (sortBy === "title-desc") {
+            return b.title.localeCompare(a.title);
+        }
+
+        if (sortBy === "rating-desc") {
+            return b.rating - a.rating;
+        }
+
+        if (sortBy === "hours-desc") {
+            return b.hoursPlayed - a.hoursPlayed;
+        }
+
+        if (sortBy === "hours-asc") {
+            return a.hoursPlayed - b.hoursPlayed;
+        }
+
+        return 0;
     });
 
     return (
@@ -55,10 +80,23 @@ function GameLibrary() {
                     <option value="Dropped">Dropped</option>
                     <option value="Live Service">Live Service</option>
                 </select>
+
+                <select
+                    className="sort-filter"
+                    value={sortBy}
+                    onChange={(event) => setSortBy(event.target.value)}
+                >
+                    <option value="title-asc">Title A-Z</option>
+                    <option value="title-desc">Title Z-A</option>
+                    <option value="rating-desc">Highest Rating</option>
+                    <option value="hours-desc">Most Hours Played</option>
+                    <option value="hours-asc">Least Hours Played</option>
+                </select>
+
             </div>
 
             <div className={"game-grid"}>
-                {filteredGames.map((game) => (
+                {sortedGames.map((game) => (
                     <GameCard
                         key={game.id}
                         title={game.title}

@@ -66,6 +66,7 @@ public class GameService {
         existingGame.setRating(request.getRating());
         existingGame.setHoursPlayed(request.getHoursPlayed());
         existingGame.setStatus(request.getStatus());
+        existingGame.setNotes(request.getNotes());
 
         Game savedGame =  gameRepository.save(existingGame);
         return toGameResponse(savedGame);
@@ -78,7 +79,8 @@ public class GameService {
                 game.getRating(),
                 game.getHoursPlayed(),
                 game.getStatus(),
-                game.getImageUrl()
+                game.getImageUrl(),
+                game.getNotes()
         );
     }
 

@@ -10,6 +10,7 @@ function GameLibrary() {
     const [statusFilter, setStatusFilter] = useState('All');
     const [sortBy, setSortBy] = useState("title-asc");
 
+
     useEffect(() => {
         async function loadGames() {
             const response = await fetch('http://localhost:8080/api/games');

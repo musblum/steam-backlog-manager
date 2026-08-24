@@ -71,3 +71,17 @@
 .status-filter:focus {
     outline: 2px solid var(--accent);
 }
+
+.sort-filter {
+    padding: 10px 14px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sort-filter:focus {
+    outline: 2px solid var(--accent);
+}

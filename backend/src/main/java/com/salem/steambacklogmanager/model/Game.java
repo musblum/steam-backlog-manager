@@ -29,6 +29,8 @@ public class Game {
     @NotBlank
     private String status;
 
+    private String notes;
+
     private Long steamAppId;
     private String imageUrl;
 
@@ -95,5 +97,11 @@ public class Game {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public String getNotes() {
+        return notes;
+    }
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

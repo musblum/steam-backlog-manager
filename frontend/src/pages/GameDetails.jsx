@@ -1,16 +1,18 @@
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useParams, Link} from "react-router-dom";
+import {useEffect, useState} from "react";
 import './GameDetails.css'
 
 function GameDetails() {
-    const { id } = useParams();
+    const {id} = useParams();
     const [game, setGame] = useState(null);
+    const [notes, setNotes] = useState("")
 
     useEffect(() => {
         async function loadGame() {
             const response = await fetch(`http://localhost:8080/api/games/${id}`);
             const data = await response.json();
             setGame(data);
+            setNotes(data.notes || "");
         }
 
         loadGame();
@@ -31,6 +33,7 @@ function GameDetails() {
                 rating: newRating,
                 status: game.status,
                 hoursPlayed: game.hoursPlayed,
+                notes: notes
             })
         })
 
@@ -50,6 +53,7 @@ function GameDetails() {
                 rating: game.rating,
                 status: newStatus,
                 hoursPlayed: game.hoursPlayed,
+                notes: notes,
             })
         });
 
@@ -57,15 +61,34 @@ function GameDetails() {
         setGame(updatedGame);
     }
 
+    async function saveNotes() {
+        const response = await fetch(`http://localhost:8080/api/games/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: game.title,
+                rating: game.rating,
+                hoursPlayed: game.hoursPlayed,
+                status: game.status,
+                notes: notes
+            })
+        });
+
+        const updatedGame = await response.json();
+
+        setGame(updatedGame);
+        setNotes(updatedGame.notes || "");
+    }
+
     return (
         <div className="game-details-page">
-
             <Link to="/" className="back-link">
                 ← Back to Library
             </Link>
 
             <div className="game-details">
-
                 <img
                     className="details-cover"
                     src={game.imageUrl}
@@ -73,17 +96,20 @@ function GameDetails() {
                 />
 
                 <div className="details-info">
-                    <h1 className="details-title">{game.title}</h1>
-
-                    <p>{game.hoursPlayed} Hours Played</p>
+                    <div className="game-info">
+                        <h1 className="details-title">{game.title}</h1>
+                        <p>{game.hoursPlayed} Hours Played</p>
+                    </div>
 
                     <div className="status-control">
-                        <label htmlFor="status">Status: </label>
+                        <label htmlFor="status">Status:</label>
 
                         <select
                             id="status"
                             value={game.status}
-                            onChange={(event) => updateStatus(event.target.value)}
+                            onChange={(event) =>
+                                updateStatus(event.target.value)
+                            }
                         >
                             <option value="Backlog">Backlog</option>
                             <option value="Playing">Playing</option>
@@ -97,18 +123,44 @@ function GameDetails() {
                         {[...Array(10)].map((_, index) => (
                             <span
                                 key={index}
-                                className={index < game.rating ? "heart filled" : "heart"}
+                                className={
+                                    index < game.rating
+                                        ? "heart filled"
+                                        : "heart"
+                                }
                                 onClick={() => updateRating(index + 1)}
                             >
-            ♥
-        </span>
+                        ♥
+                    </span>
                         ))}
                     </div>
-                </div>
 
+                    <div className="notes-section">
+                        <h3>Notes</h3>
+
+                        <textarea
+                            value={notes}
+                            onChange={(event) =>
+                                setNotes(event.target.value)
+                            }
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter" && !event.shiftKey) {
+                                    event.preventDefault();
+                                    saveNotes();
+                                }
+                            }}
+                            placeholder="Write a note about this game..."
+                        />
+                        <button
+                            className="save-notes-button"
+                            onClick={saveNotes}
+                        >
+                            Save Notes
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-    );
+        </div>    );
 }
 
 export default GameDetails;

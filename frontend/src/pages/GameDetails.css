@@ -52,3 +52,56 @@
     border: 1px solid var(--accent-border);
     cursor: pointer;
 }
+
+.notes-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.notes-section h3 {
+    margin: 0;
+}
+
+.notes-section textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+
+    background: var(--bg);
+    color: var(--text);
+
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+
+    resize: vertical;
+}
+
+.notes-section textarea:focus {
+    outline: 2px solid var(--accent);
+}
+
+.save-notes-button {
+    align-self: flex-start;
+
+    padding: 9px 16px;
+
+    background: var(--accent);
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.notes-section button:hover {
+    opacity: 0.9;
+}

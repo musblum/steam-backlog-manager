@@ -19,6 +19,8 @@ public class UpdateGameRequest {
     @NotBlank
     private String status;
 
+    private String notes;
+
     public UpdateGameRequest() {
     }
 
@@ -59,5 +61,13 @@ public class UpdateGameRequest {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

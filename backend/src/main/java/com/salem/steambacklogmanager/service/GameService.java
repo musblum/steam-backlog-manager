@@ -2,6 +2,7 @@ package com.salem.steambacklogmanager.service;
 
 import com.salem.steambacklogmanager.dto.CreateGameRequest;
 import com.salem.steambacklogmanager.dto.GameResponse;
+import com.salem.steambacklogmanager.dto.GameStatsResponse;
 import com.salem.steambacklogmanager.dto.UpdateGameRequest;
 import com.salem.steambacklogmanager.dto.steam.SteamGame;
 import com.salem.steambacklogmanager.exception.GameNotFoundException;
@@ -149,6 +150,39 @@ public class GameService {
             responses.add(toGameResponse(importedGame));
         }
         return responses;
+    }
+
+    public GameStatsResponse getGameStats() {
+        List<Game> games = gameRepository.findAll();
+        int totalGames = games.size();
+        int totalHours = 0;
+        int backlog = 0;
+        int completed = 0;
+        int playing = 0;
+        int dropped = 0;
+        int liveService = 0;
+
+        for (Game game : games) {
+            totalHours += game.getHoursPlayed();
+
+            switch (game.getStatus()) {
+                case "Backlog" -> backlog++;
+                case "Playing" -> playing++;
+                case "Completed" -> completed++;
+                case "Dropped" -> dropped++;
+                case "Live-Service" -> liveService++;
+            }
+        }
+        return new GameStatsResponse(
+                totalHours,
+                totalGames,
+                playing,
+                backlog,
+                completed,
+                dropped,
+                liveService
+                );
+
     }
 
 }

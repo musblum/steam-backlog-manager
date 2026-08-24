@@ -38,3 +38,17 @@
 .back-link:hover {
     color: var(--accent);
 }
+
+.status-control {
+    margin: 16px 0;
+}
+
+.status-control select {
+    margin-left: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--accent-border);
+    cursor: pointer;
+}

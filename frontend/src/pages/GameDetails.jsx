@@ -34,8 +34,27 @@ function GameDetails() {
             })
         })
 
+
         const updatedGame = await response.json()
         setGame(updatedGame)
+    }
+
+    async function updateStatus(newStatus) {
+        const response = await fetch(`http://localhost:8080/api/games/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: game.title,
+                rating: game.rating,
+                status: newStatus,
+                hoursPlayed: game.hoursPlayed,
+            })
+        });
+
+        const updatedGame = await response.json();
+        setGame(updatedGame);
     }
 
     return (
@@ -58,7 +77,21 @@ function GameDetails() {
 
                     <p>{game.hoursPlayed} Hours Played</p>
 
-                    <p>Status: {game.status}</p>
+                    <div className="status-control">
+                        <label htmlFor="status">Status: </label>
+
+                        <select
+                            id="status"
+                            value={game.status}
+                            onChange={(event) => updateStatus(event.target.value)}
+                        >
+                            <option value="Backlog">Backlog</option>
+                            <option value="Playing">Playing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Dropped">Dropped</option>
+                            <option value="Live-Service">Live Service</option>
+                        </select>
+                    </div>
 
                     <div className="details-rating">
                         {[...Array(10)].map((_, index) => (

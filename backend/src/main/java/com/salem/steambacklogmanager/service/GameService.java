@@ -33,15 +33,14 @@ public class GameService {
         return responses;
     }
 
-    private GameResponse toGameResponse(Game game) {
-        return new GameResponse(
-                game.getId(),
-                game.getTitle(),
-                game.getRating(),
-                game.getHoursPlayed(),
-                game.getStatus(),
-                game.getImageUrl()
-        );
+    public GameResponse getGameById(Long id) {
+        Optional<Game> existingGame = gameRepository.findById(id);
+
+        if (existingGame.isPresent()) {
+            return toGameResponse(existingGame.get());
+        }
+
+        return null;
     }
 
     public GameResponse createGame(CreateGameRequest request) {
@@ -52,14 +51,7 @@ public class GameService {
                 request.getStatus()
         );
         Game savedGame =  gameRepository.save(game);
-        return new GameResponse(
-                savedGame.getId(),
-                savedGame.getTitle(),
-                savedGame.getRating(),
-                savedGame.getHoursPlayed(),
-                savedGame.getStatus(),
-                savedGame.getImageUrl()
-        );
+        return toGameResponse(savedGame);
     }
 
     public void deleteGame(Long id) {
@@ -77,6 +69,17 @@ public class GameService {
 
         Game savedGame =  gameRepository.save(existingGame);
         return toGameResponse(savedGame);
+    }
+
+    private GameResponse toGameResponse(Game game) {
+        return new GameResponse(
+                game.getId(),
+                game.getTitle(),
+                game.getRating(),
+                game.getHoursPlayed(),
+                game.getStatus(),
+                game.getImageUrl()
+        );
     }
 
     public List<GameResponse> searchGames(String title) {
@@ -110,6 +113,9 @@ public class GameService {
         Optional<Game> existingGame =
                 gameRepository.findBySteamAppId(steamGame.getAppid());
 
+        // Reuse an existing game during Steam sync to preserve user data
+        // such as rating and status. Only create a new Game if it has not
+        // been imported before.
         Game game;
 
         if (existingGame.isPresent()) {
@@ -137,19 +143,10 @@ public class GameService {
     public List<GameResponse> importSteamGames(List<SteamGame> steamGames) {
         List<GameResponse> responses = new ArrayList<>();
         for (SteamGame game : steamGames) {
-            Game newGame = importSteamGame(game);
-            responses.add(toGameResponse(newGame));
+            Game importedGame = importSteamGame(game);
+            responses.add(toGameResponse(importedGame));
         }
         return responses;
     }
 
-    public GameResponse getGameById(Long id) {
-        Optional<Game> existingGame = gameRepository.findById(id);
-
-        if (existingGame.isPresent()) {
-            return toGameResponse(existingGame.get());
-        }
-
-        return null;
-    }
 }

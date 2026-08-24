@@ -6,6 +6,8 @@ import '../App.css'
 function GameLibrary() {
 
     const [games, setGames] = useState([]);
+    const [search, setSearch] = useState('');
+    const [statusFilter, setStatusFilter] = useState('All');
 
     useEffect(() => {
         async function loadGames() {
@@ -16,13 +18,47 @@ function GameLibrary() {
         loadGames();
     }, [])
 
+    const filteredGames = games.filter((game) => {
+        const matchesSearch = game.title
+            .toLowerCase()
+            .includes(search.toLowerCase());
+
+        const matchesStatus =
+            statusFilter === 'All' || game.status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+    });
+
     return (
         <>
             <h1 className={"app-title"}>Steam    Backlog     Manager</h1>
             <p>Your games. Your ratings. Your backlog</p>
 
+            <div className="library-controls">
+                <input
+                    type="text"
+                    placeholder="Search games..."
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    className="search-bar"
+                />
+
+                <select
+                    className="status-filter"
+                    value={statusFilter}
+                    onChange={(event) => setStatusFilter(event.target.value)}
+                >
+                    <option value="All">All Statuses</option>
+                    <option value="Backlog">Backlog</option>
+                    <option value="Playing">Playing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Dropped">Dropped</option>
+                    <option value="Live Service">Live Service</option>
+                </select>
+            </div>
+
             <div className={"game-grid"}>
-                {games.map((game) => (
+                {filteredGames.map((game) => (
                     <GameCard
                         key={game.id}
                         title={game.title}

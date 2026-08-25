@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/steam")
@@ -31,7 +32,18 @@ public class SteamController {
     public List<GameResponse> importSteamGames(@RequestParam String steamId) {
         SteamOwnedGameResponse ownedGames = steamService.getOwnedGames(steamId);
         List<SteamGame> steamGames = ownedGames.getResponse().getGames();
-        List<GameResponse> importedGames = gameService.importSteamGames(steamGames);
+
+        List<Long> appIds = new ArrayList<>();
+        for (SteamGame steamGame : steamGames) {
+            appIds.add(steamGame.getAppid());
+        }
+
+        Map<Long, String> imageUrls =
+                steamService.getLibraryCapsuleUrls(appIds);
+        System.out.println("SKATE URL: " + imageUrls.get(3354750L));
+
+        List<GameResponse> importedGames = gameService.importSteamGames(steamGames, imageUrls);
         return importedGames;
     }
+
 }

@@ -8,11 +8,11 @@ import com.salem.steambacklogmanager.dto.steam.SteamGame;
 import com.salem.steambacklogmanager.exception.GameNotFoundException;
 import com.salem.steambacklogmanager.model.Game;
 import com.salem.steambacklogmanager.repository.GameRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -112,43 +112,42 @@ public class GameService {
         return responses;
     }
 
-    public Game importSteamGame(SteamGame steamGame) {
-        Optional<Game> existingGame =
-                gameRepository.findBySteamAppId(steamGame.getAppid());
-
-        // Reuse an existing game during Steam sync to preserve user data
-        // such as rating and status. Only create a new Game if it has not
-        // been imported before.
-        Game game;
-
-        if (existingGame.isPresent()) {
-            game = existingGame.get();
-        } else {
-            game = new Game();
-            game.setRating(0);
-            game.setStatus("Backlog");
-        }
-
-        game.setTitle(steamGame.getName());
-        game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
-        game.setSteamAppId(steamGame.getAppid());
-
-        String imageUrl =
-                "https://steamcdn-a.akamaihd.net/steam/apps/"
-                        + steamGame.getAppid()
-                        + "/library_600x900.jpg";
-
-        game.setImageUrl(imageUrl);
-
-        return gameRepository.save(game);
-    }
-
-    public List<GameResponse> importSteamGames(List<SteamGame> steamGames) {
+    public List<GameResponse> importSteamGames(
+            List<SteamGame> steamGames,
+            Map<Long, String> imageUrls
+    ) {
         List<GameResponse> responses = new ArrayList<>();
-        for (SteamGame game : steamGames) {
-            Game importedGame = importSteamGame(game);
-            responses.add(toGameResponse(importedGame));
+
+        for (SteamGame steamGame : steamGames) {
+            Optional<Game> existingGame =
+                    gameRepository.findBySteamAppId(steamGame.getAppid());
+
+            // Reuse existing game so user data like rating,
+            // status, and notes are preserved.
+            Game game;
+
+            if (existingGame.isPresent()) {
+                game = existingGame.get();
+            } else {
+                game = new Game();
+                game.setRating(0);
+                game.setStatus("Backlog");
+            }
+
+            game.setTitle(steamGame.getName());
+            game.setHoursPlayed(steamGame.getPlaytime_forever() / 60);
+            game.setSteamAppId(steamGame.getAppid());
+
+            String imageUrl = imageUrls.get(steamGame.getAppid());
+
+            if (imageUrl != null) {
+                game.setImageUrl(imageUrl);
+            }
+
+            Game savedGame = gameRepository.save(game);
+            responses.add(toGameResponse(savedGame));
         }
+
         return responses;
     }
 

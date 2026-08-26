@@ -17,6 +17,7 @@ Steam Backlog Manager allows users to import games directly from Steam, organize
     * Live Service
 * Search games by title
 * Filter games by status
+* Sort games by title, rating, or hours played
 * Rate games
 * Add and update personal notes
 * View playtime and game information
@@ -197,7 +198,7 @@ This project was built to strengthen my understanding of full-stack software dev
 
 * User accounts and authentication
 * Cloud deployment
-* Improved filtering and sorting
+* Advanced filtering and sorting
 * Additional library analytics
 * Expanded automated testing
 * Responsive UI improvements

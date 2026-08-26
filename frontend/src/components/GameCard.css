@@ -52,6 +52,7 @@
 .heart {
     color: #45414d;
     font-size: 18px;
+    cursor: pointer;
 }
 
 .heart.filled {

@@ -40,7 +40,6 @@ public class SteamController {
 
         Map<Long, String> imageUrls =
                 steamService.getLibraryCapsuleUrls(appIds);
-        System.out.println("SKATE URL: " + imageUrls.get(3354750L));
 
         List<GameResponse> importedGames = gameService.importSteamGames(steamGames, imageUrls);
         return importedGames;

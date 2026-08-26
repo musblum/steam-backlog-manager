@@ -35,13 +35,10 @@ public class GameService {
     }
 
     public GameResponse getGameById(Long id) {
-        Optional<Game> existingGame = gameRepository.findById(id);
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new GameNotFoundException(id));
 
-        if (existingGame.isPresent()) {
-            return toGameResponse(existingGame.get());
-        }
-
-        return null;
+        return toGameResponse(game);
     }
 
     public GameResponse createGame(CreateGameRequest request) {
@@ -56,7 +53,10 @@ public class GameService {
     }
 
     public void deleteGame(Long id) {
-        gameRepository.deleteById(id);
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new GameNotFoundException(id));
+
+        gameRepository.delete(game);
     }
 
     public GameResponse updateGame(Long id, UpdateGameRequest request ) {

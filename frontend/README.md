@@ -1,16 +1,86 @@
-# React + Vite
+# Steam Backlog Manager Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for the Steam Backlog Manager application.
 
-Currently, two official plugins are available:
+The interface is built with React and communicates with the Spring Boot backend to display and manage a user's imported Steam game library.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Technologies
 
-## React Compiler
+* React
+* JavaScript
+* React Router
+* Vite
+* CSS
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+* View imported Steam games
+* Search games by title
+* Filter games by status
+* Sort games by title, rating, or hours played
+* View detailed game information
+* Update game status
+* Rate games
+* Add and edit personal notes
+* View library statistics
+* Display Steam game artwork with fallback handling for missing images
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+The frontend source code is located in `src/` and is organized into:
+
+* `components/` — reusable UI components
+* `pages/` — application pages
+* `App.jsx` — application routing and main layout
+* `main.jsx` — React application entry point
+* CSS files — application styling
+
+## Running the Frontend Locally
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Vite will display the local development URL in the terminal.
+
+The Spring Boot backend must also be running for API-dependent features to work.
+
+## Available Scripts
+
+```bash
+npm run dev
+```
+
+Starts the Vite development server.
+
+```bash
+npm run build
+```
+
+Creates a production build.
+
+```bash
+npm run lint
+```
+
+Runs ESLint.
+
+```bash
+npm run preview
+```
+
+Runs a local preview of the production build.
+
+## Backend
+
+The backend for this project is located in the `backend/` directory of the main Steam Backlog Manager repository.
+
+For complete project setup instructions and documentation, see the root `README.md`.

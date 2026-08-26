@@ -79,7 +79,7 @@ function GameLibrary() {
                     <option value="Playing">Playing</option>
                     <option value="Completed">Completed</option>
                     <option value="Dropped">Dropped</option>
-                    <option value="Live Service">Live Service</option>
+                    <option value="Live-Service">Live Service</option>
                 </select>
 
                 <select
